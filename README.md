@@ -144,9 +144,19 @@ Tabela `tasks` no Supabase:
 
 ## 📸 Prints das Telas
 
+<div align="center">
+
 | Splash | Login | Home |
-|--------|-------|------|
-| ![Splash](assets/splash.png) | ![Login](assets/icon.png) | ![Home](assets/adaptive-icon.png) |
+|:------:|:-----:|:----:|
+| <img src="assets/screenshots/splash.png" width="200"/> | <img src="assets/screenshots/login.png" width="200"/> | <img src="assets/screenshots/home.png" width="200"/> |
+
+| Nova Tarefa | Detalhes | Configurações |
+|:-----------:|:--------:|:-------------:|
+| <img src="assets/screenshots/nova_tarefa.png" width="200"/> | <img src="assets/screenshots/detalhes.png" width="200"/> | <img src="assets/screenshots/configuracoes.png" width="200"/> |
+
+</div>
+
+> **Como adicionar os prints:** tire screenshots do app rodando (Expo Go ou emulador) e salve em `assets/screenshots/` com os nomes acima.
 
 ---
 
