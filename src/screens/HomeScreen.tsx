@@ -5,16 +5,18 @@ import {
 } from 'react-native';
 import { useTasks } from '../context/TaskContext';
 import TaskItem from '../components/TaskItem';
+import type { ThemeColors } from '../theme/colors';
 import type { HomeScreenProps } from '../types';
 
 const FILTERS = ['Todas', 'Pendentes', 'Concluídas'] as const;
 const CATEGORIES = ['Todas', 'Estudos', 'Faculdade', 'Saúde', 'Trabalho', 'Pessoal'] as const;
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
-  const { tasks, toggleStatus, user } = useTasks();
+  const { tasks, toggleStatus, user, colors } = useTasks();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('Todas');
   const [category, setCategory] = useState('Todas');
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   const filtered = useMemo(() => {
     return tasks.filter(t => {
@@ -65,11 +67,11 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
           <Text style={styles.summaryLabel}>Total</Text>
         </View>
         <View style={[styles.summaryCard, styles.summaryCardAccent]}>
-          <Text style={[styles.summaryNumber, { color: '#7C5CFC' }]}>{pending}</Text>
+          <Text style={[styles.summaryNumber, { color: colors.accent }]}>{pending}</Text>
           <Text style={styles.summaryLabel}>Pendentes</Text>
         </View>
         <View style={[styles.summaryCard, styles.summaryCardGreen]}>
-          <Text style={[styles.summaryNumber, { color: '#22C55E' }]}>{done}</Text>
+          <Text style={[styles.summaryNumber, { color: colors.success }]}>{done}</Text>
           <Text style={styles.summaryLabel}>Concluídas</Text>
         </View>
       </View>
@@ -79,7 +81,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         <TextInput
           style={styles.searchInput}
           placeholder="Buscar tarefas..."
-          placeholderTextColor="#4A4E65"
+          placeholderTextColor={colors.placeholder}
           value={search}
           onChangeText={setSearch}
         />
@@ -140,103 +142,105 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F1117' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
-  },
-  greeting: { fontSize: 22, fontWeight: '800', color: '#F4F4F5' },
-  headerSub: { fontSize: 13, color: '#8B8FA8', marginTop: 3 },
-  avatar: { width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: '#2A2D3A' },
-  summaryRow: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 16, gap: 10 },
-  summaryCard: {
-    flex: 1,
-    borderRadius: 16,
-    padding: 14,
-    alignItems: 'center',
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  summaryCardAccent: { borderColor: 'rgba(124, 92, 252, 0.3)' },
-  summaryCardGreen: { borderColor: 'rgba(34, 197, 94, 0.3)' },
-  summaryNumber: { fontSize: 26, fontWeight: '800', color: '#F4F4F5' },
-  summaryLabel: { fontSize: 11, color: '#8B8FA8', marginTop: 2, fontWeight: '600' },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1A1D24',
-    borderRadius: 14,
-    marginHorizontal: 16,
-    marginBottom: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  searchIcon: { fontSize: 15, marginRight: 10 },
-  searchInput: { flex: 1, fontSize: 14, color: '#F4F4F5' },
-  clearSearch: { fontSize: 14, color: '#4A4E65', padding: 4 },
-  filtersRow: { flexDirection: 'row', paddingHorizontal: 16, marginBottom: 8, gap: 8 },
-  filterChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 7,
-    borderRadius: 20,
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  filterChipActive: { backgroundColor: '#7C5CFC', borderColor: '#7C5CFC' },
-  filterText: { fontSize: 13, color: '#8B8FA8', fontWeight: '600' },
-  filterTextActive: { color: '#FFF' },
-  categoryList: { paddingHorizontal: 16, paddingVertical: 8, gap: 8 },
-  categoryChip: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 20,
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  categoryChipActive: { backgroundColor: 'rgba(124, 92, 252, 0.2)', borderColor: '#7C5CFC' },
-  categoryText: { fontSize: 12, color: '#8B8FA8', fontWeight: '600' },
-  categoryTextActive: { color: '#9D84FD' },
-  emptyList: { flex: 1 },
-  emptyContainer: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 80 },
-  emptyIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: 'rgba(124, 92, 252, 0.12)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(124, 92, 252, 0.25)',
-  },
-  emptyIconText: { fontSize: 30, color: '#7C5CFC' },
-  emptyTitle: { fontSize: 17, fontWeight: '700', color: '#F4F4F5', marginBottom: 8 },
-  emptySubtitle: { fontSize: 13, color: '#8B8FA8', textAlign: 'center' },
-  fab: {
-    position: 'absolute',
-    bottom: 28,
-    right: 24,
-    backgroundColor: '#7C5CFC',
-    width: 58,
-    height: 58,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#7C5CFC',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.45,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  fabIcon: { fontSize: 28, color: '#FFF', fontWeight: '300', lineHeight: 32 },
-});
+function makeStyles(c: ThemeColors) {
+  return StyleSheet.create({
+    container: { flex: 1, backgroundColor: c.bg },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 20,
+      paddingTop: 20,
+      paddingBottom: 16,
+    },
+    greeting: { fontSize: 22, fontWeight: '800', color: c.textPrimary },
+    headerSub: { fontSize: 13, color: c.textSecondary, marginTop: 3 },
+    avatar: { width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: c.border },
+    summaryRow: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 16, gap: 10 },
+    summaryCard: {
+      flex: 1,
+      borderRadius: 16,
+      padding: 14,
+      alignItems: 'center',
+      backgroundColor: c.card,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    summaryCardAccent: { borderColor: c.accentBorder },
+    summaryCardGreen: { borderColor: 'rgba(34,197,94,0.3)' },
+    summaryNumber: { fontSize: 26, fontWeight: '800', color: c.textPrimary },
+    summaryLabel: { fontSize: 11, color: c.textSecondary, marginTop: 2, fontWeight: '600' },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: c.card,
+      borderRadius: 14,
+      marginHorizontal: 16,
+      marginBottom: 14,
+      paddingHorizontal: 14,
+      paddingVertical: 12,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    searchIcon: { fontSize: 15, marginRight: 10 },
+    searchInput: { flex: 1, fontSize: 14, color: c.textPrimary },
+    clearSearch: { fontSize: 14, color: c.textMuted, padding: 4 },
+    filtersRow: { flexDirection: 'row', paddingHorizontal: 16, marginBottom: 8, gap: 8 },
+    filterChip: {
+      paddingHorizontal: 16,
+      paddingVertical: 7,
+      borderRadius: 20,
+      backgroundColor: c.card,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    filterChipActive: { backgroundColor: c.accent, borderColor: c.accent },
+    filterText: { fontSize: 13, color: c.textSecondary, fontWeight: '600' },
+    filterTextActive: { color: '#FFF' },
+    categoryList: { paddingHorizontal: 16, paddingVertical: 8, gap: 8 },
+    categoryChip: {
+      paddingHorizontal: 14,
+      paddingVertical: 6,
+      borderRadius: 20,
+      backgroundColor: c.card,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    categoryChipActive: { backgroundColor: c.accentBg, borderColor: c.accent },
+    categoryText: { fontSize: 12, color: c.textSecondary, fontWeight: '600' },
+    categoryTextActive: { color: c.accent },
+    emptyList: { flex: 1 },
+    emptyContainer: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 80 },
+    emptyIcon: {
+      width: 72,
+      height: 72,
+      borderRadius: 36,
+      backgroundColor: c.accentBg,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
+      borderWidth: 1,
+      borderColor: c.accentBorder,
+    },
+    emptyIconText: { fontSize: 30, color: c.accent },
+    emptyTitle: { fontSize: 17, fontWeight: '700', color: c.textPrimary, marginBottom: 8 },
+    emptySubtitle: { fontSize: 13, color: c.textSecondary, textAlign: 'center' },
+    fab: {
+      position: 'absolute',
+      bottom: 28,
+      right: 24,
+      backgroundColor: c.accent,
+      width: 58,
+      height: 58,
+      borderRadius: 18,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: c.accent,
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.45,
+      shadowRadius: 12,
+      elevation: 8,
+    },
+    fabIcon: { fontSize: 28, color: '#FFF', fontWeight: '300', lineHeight: 32 },
+  });
+}

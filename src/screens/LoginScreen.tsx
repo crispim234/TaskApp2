@@ -4,15 +4,19 @@ import {
   StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, ActivityIndicator,
 } from 'react-native';
 import { supabase } from '../config/supabase';
+import { useTasks } from '../context/TaskContext';
+import type { ThemeColors } from '../theme/colors';
 import type { LoginScreenProps } from '../types';
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
+  const { colors } = useTasks();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const styles = makeStyles(colors);
 
   async function handleSubmit() {
     if (!email.trim() || !password.trim()) {
@@ -76,7 +80,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               <TextInput
                 style={styles.input}
                 placeholder="Seu nome"
-                placeholderTextColor="#4A4E65"
+                placeholderTextColor={colors.placeholder}
                 value={name}
                 onChangeText={setName}
                 autoCapitalize="words"
@@ -89,7 +93,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
             <TextInput
               style={styles.input}
               placeholder="seu@email.com"
-              placeholderTextColor="#4A4E65"
+              placeholderTextColor={colors.placeholder}
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -103,7 +107,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               <TextInput
                 style={[styles.input, styles.passwordInput]}
                 placeholder="••••••••"
-                placeholderTextColor="#4A4E65"
+                placeholderTextColor={colors.placeholder}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
@@ -139,62 +143,64 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: '#0F1117' },
-  container: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
-  logoArea: { alignItems: 'center', marginBottom: 36 },
-  iconWrapper: {
-    width: 80,
-    height: 80,
-    borderRadius: 24,
-    backgroundColor: 'rgba(124, 92, 252, 0.18)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(124, 92, 252, 0.3)',
-  },
-  logo: { width: 46, height: 46 },
-  appName: { fontSize: 30, fontWeight: '800', color: '#F4F4F5' },
-  subtitle: { fontSize: 14, color: '#8B8FA8', marginTop: 6 },
-  card: {
-    backgroundColor: '#1A1D24',
-    borderRadius: 24,
-    padding: 24,
-    width: '100%',
-    maxWidth: 400,
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  cardTitle: { fontSize: 22, fontWeight: '700', color: '#F4F4F5', marginBottom: 4 },
-  cardSub: { fontSize: 13, color: '#8B8FA8', marginBottom: 24 },
-  inputGroup: { marginBottom: 16 },
-  label: { fontSize: 13, fontWeight: '600', color: '#8B8FA8', marginBottom: 8 },
-  input: {
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 15,
-    color: '#F4F4F5',
-    backgroundColor: '#222630',
-  },
-  passwordRow: { flexDirection: 'row', alignItems: 'center' },
-  passwordInput: { flex: 1 },
-  eyeButton: { position: 'absolute', right: 14 },
-  eyeText: { fontSize: 18 },
-  submitButton: {
-    backgroundColor: '#7C5CFC',
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginTop: 8,
-    marginBottom: 18,
-  },
-  submitDisabled: { opacity: 0.5 },
-  submitText: { color: '#FFF', fontSize: 16, fontWeight: '700' },
-  toggleButton: { alignItems: 'center' },
-  toggleText: { fontSize: 14, color: '#8B8FA8' },
-  toggleLink: { color: '#7C5CFC', fontWeight: '700' },
-});
+function makeStyles(c: ThemeColors) {
+  return StyleSheet.create({
+    flex: { flex: 1, backgroundColor: c.bg },
+    container: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+    logoArea: { alignItems: 'center', marginBottom: 36 },
+    iconWrapper: {
+      width: 80,
+      height: 80,
+      borderRadius: 24,
+      backgroundColor: c.accentBg,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: c.accentBorder,
+    },
+    logo: { width: 46, height: 46 },
+    appName: { fontSize: 30, fontWeight: '800', color: c.textPrimary },
+    subtitle: { fontSize: 14, color: c.textSecondary, marginTop: 6 },
+    card: {
+      backgroundColor: c.card,
+      borderRadius: 24,
+      padding: 24,
+      width: '100%',
+      maxWidth: 400,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    cardTitle: { fontSize: 22, fontWeight: '700', color: c.textPrimary, marginBottom: 4 },
+    cardSub: { fontSize: 13, color: c.textSecondary, marginBottom: 24 },
+    inputGroup: { marginBottom: 16 },
+    label: { fontSize: 13, fontWeight: '600', color: c.textSecondary, marginBottom: 8 },
+    input: {
+      borderWidth: 1,
+      borderColor: c.border,
+      borderRadius: 12,
+      paddingHorizontal: 16,
+      paddingVertical: 14,
+      fontSize: 15,
+      color: c.textPrimary,
+      backgroundColor: c.input,
+    },
+    passwordRow: { flexDirection: 'row', alignItems: 'center' },
+    passwordInput: { flex: 1 },
+    eyeButton: { position: 'absolute', right: 14 },
+    eyeText: { fontSize: 18 },
+    submitButton: {
+      backgroundColor: c.accent,
+      borderRadius: 14,
+      paddingVertical: 16,
+      alignItems: 'center',
+      marginTop: 8,
+      marginBottom: 18,
+    },
+    submitDisabled: { opacity: 0.5 },
+    submitText: { color: '#FFF', fontSize: 16, fontWeight: '700' },
+    toggleButton: { alignItems: 'center' },
+    toggleText: { fontSize: 14, color: c.textSecondary },
+    toggleLink: { color: c.accent, fontWeight: '700' },
+  });
+}

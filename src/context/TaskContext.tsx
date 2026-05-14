@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../config/supabase';
 import type { Task, Settings } from '../types';
+import { darkColors, lightColors, type ThemeColors } from '../theme/colors';
 
 function generateUUID(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -17,6 +18,8 @@ interface TaskContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   settings: Settings;
+  colors: ThemeColors;
+  isDark: boolean;
   addTask: (task: Pick<Task, 'title' | 'description' | 'category' | 'priority'>) => Promise<boolean>;
   updateTask: (task: Task) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
@@ -62,7 +65,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
   const userRef = useRef<User | null>(null);
   const deleteTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const [settings, setSettings] = useState<Settings>({
-    theme: 'light',
+    theme: 'dark',
     notifications: true,
     sortBy: 'data',
   });
@@ -251,9 +254,12 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     await AsyncStorage.setItem('@settings', JSON.stringify(merged));
   }
 
+  const isDark = settings.theme === 'dark';
+  const colors = isDark ? darkColors : lightColors;
+
   return (
     <TaskContext.Provider
-      value={{ tasks, user, setUser, settings, addTask, updateTask, deleteTask, toggleStatus, updateSettings }}
+      value={{ tasks, user, setUser, settings, colors, isDark, addTask, updateTask, deleteTask, toggleStatus, updateSettings }}
     >
       {children}
     </TaskContext.Provider>

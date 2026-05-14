@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, ScrollView,
   StyleSheet, KeyboardAvoidingView, Platform, Alert, Button,
 } from 'react-native';
 import { useTasks } from '../context/TaskContext';
+import type { ThemeColors } from '../theme/colors';
 import type { AddTaskScreenProps, Priority } from '../types';
 
 const CATEGORIES = ['Estudos', 'Faculdade', 'Saúde', 'Trabalho', 'Pessoal'] as const;
@@ -16,12 +17,13 @@ const PRIORITY_BG: Record<Priority, string> = {
 };
 
 export default function AddTaskScreen({ navigation }: AddTaskScreenProps) {
-  const { addTask } = useTasks();
+  const { addTask, colors } = useTasks();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState<string>('Estudos');
   const [priority, setPriority] = useState<Priority>('Média');
   const [saving, setSaving] = useState(false);
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   async function handleSave() {
     if (!title.trim()) {
@@ -50,7 +52,7 @@ export default function AddTaskScreen({ navigation }: AddTaskScreenProps) {
           <TextInput
             style={styles.input}
             placeholder="Ex: Estudar para a prova de cálculo"
-            placeholderTextColor="#4A4E65"
+            placeholderTextColor={colors.placeholder}
             value={title}
             onChangeText={setTitle}
             maxLength={80}
@@ -63,7 +65,7 @@ export default function AddTaskScreen({ navigation }: AddTaskScreenProps) {
           <TextInput
             style={[styles.input, styles.textArea]}
             placeholder="Detalhes opcionais sobre a tarefa..."
-            placeholderTextColor="#4A4E65"
+            placeholderTextColor={colors.placeholder}
             value={description}
             onChangeText={setDescription}
             multiline
@@ -131,7 +133,7 @@ export default function AddTaskScreen({ navigation }: AddTaskScreenProps) {
 
         <View style={styles.buttonRow}>
           <View style={styles.cancelButton}>
-            <Button title="Cancelar" onPress={() => navigation.goBack()} color="#8B8FA8" />
+            <Button title="Cancelar" onPress={() => navigation.goBack()} color={colors.textSecondary} />
           </View>
           <TouchableOpacity
             style={[styles.saveButton, saving && { opacity: 0.6 }]}
@@ -146,92 +148,94 @@ export default function AddTaskScreen({ navigation }: AddTaskScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: '#0F1117' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#2A2D3A',
-  },
-  backBtn: { width: 36, height: 36, borderRadius: 10, backgroundColor: '#1A1D24', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#2A2D3A' },
-  backText: { fontSize: 18, color: '#F4F4F5', fontWeight: 'bold' },
-  headerTitle: { fontSize: 17, fontWeight: '700', color: '#F4F4F5' },
-  container: { padding: 20, paddingBottom: 40 },
-  field: { marginBottom: 22 },
-  label: { fontSize: 12, fontWeight: '700', color: '#8B8FA8', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 10 },
-  required: { color: '#FF4757' },
-  input: {
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 15,
-    color: '#F4F4F5',
-  },
-  textArea: { minHeight: 100 },
-  counter: { fontSize: 11, color: '#4A4E65', textAlign: 'right', marginTop: 6 },
-  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  optionChip: {
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    borderRadius: 12,
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  optionChipActive: { backgroundColor: 'rgba(124, 92, 252, 0.15)', borderColor: '#7C5CFC' },
-  optionText: { fontSize: 13, color: '#8B8FA8', fontWeight: '600' },
-  optionTextActive: { color: '#9D84FD' },
-  priorityRow: { flexDirection: 'row', gap: 10 },
-  priorityChip: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    paddingVertical: 12,
-    borderRadius: 12,
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-  },
-  priorityDot: { width: 8, height: 8, borderRadius: 4 },
-  priorityText: { fontSize: 13, color: '#8B8FA8', fontWeight: '600' },
-  divider: { height: 1, backgroundColor: '#2A2D3A', marginBottom: 22 },
-  previewCard: {
-    backgroundColor: '#1A1D24',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-    flexDirection: 'row',
-    overflow: 'hidden',
-  },
-  previewAccent: { width: 4 },
-  previewBody: { flex: 1, padding: 14 },
-  previewTitle: { fontSize: 15, fontWeight: '600', color: '#F4F4F5', marginBottom: 4 },
-  previewDesc: { fontSize: 13, color: '#8B8FA8', marginBottom: 8 },
-  previewRow: { flexDirection: 'row', gap: 8 },
-  previewCategory: { backgroundColor: 'rgba(124,92,252,0.12)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-  previewCategoryText: { fontSize: 11, color: '#9D84FD', fontWeight: '600' },
-  previewPriority: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-  previewPriorityText: { fontSize: 11, fontWeight: '700' },
-  buttonRow: { flexDirection: 'row', gap: 12 },
-  cancelButton: {
-    flex: 1,
-    paddingVertical: 15,
-    borderRadius: 14,
-    backgroundColor: '#1A1D24',
-    borderWidth: 1,
-    borderColor: '#2A2D3A',
-    alignItems: 'center',
-  },
-  cancelText: { fontSize: 15, color: '#8B8FA8', fontWeight: '600' },
-  saveButton: { flex: 2, paddingVertical: 15, borderRadius: 14, backgroundColor: '#7C5CFC', alignItems: 'center' },
-  saveText: { fontSize: 15, color: '#FFF', fontWeight: '700' },
-});
+function makeStyles(c: ThemeColors) {
+  return StyleSheet.create({
+    flex: { flex: 1, backgroundColor: c.bg },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 20,
+      paddingVertical: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: c.border,
+    },
+    backBtn: { width: 36, height: 36, borderRadius: 10, backgroundColor: c.card, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: c.border },
+    backText: { fontSize: 18, color: c.textPrimary, fontWeight: 'bold' },
+    headerTitle: { fontSize: 17, fontWeight: '700', color: c.textPrimary },
+    container: { padding: 20, paddingBottom: 40 },
+    field: { marginBottom: 22 },
+    label: { fontSize: 12, fontWeight: '700', color: c.textSecondary, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 10 },
+    required: { color: '#FF4757' },
+    input: {
+      backgroundColor: c.input,
+      borderWidth: 1,
+      borderColor: c.border,
+      borderRadius: 14,
+      paddingHorizontal: 16,
+      paddingVertical: 14,
+      fontSize: 15,
+      color: c.textPrimary,
+    },
+    textArea: { minHeight: 100 },
+    counter: { fontSize: 11, color: c.textMuted, textAlign: 'right', marginTop: 6 },
+    optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+    optionChip: {
+      paddingHorizontal: 14,
+      paddingVertical: 9,
+      borderRadius: 12,
+      backgroundColor: c.card,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    optionChipActive: { backgroundColor: c.accentBg, borderColor: c.accent },
+    optionText: { fontSize: 13, color: c.textSecondary, fontWeight: '600' },
+    optionTextActive: { color: c.accent },
+    priorityRow: { flexDirection: 'row', gap: 10 },
+    priorityChip: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      paddingVertical: 12,
+      borderRadius: 12,
+      backgroundColor: c.card,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    priorityDot: { width: 8, height: 8, borderRadius: 4 },
+    priorityText: { fontSize: 13, color: c.textSecondary, fontWeight: '600' },
+    divider: { height: 1, backgroundColor: c.border, marginBottom: 22 },
+    previewCard: {
+      backgroundColor: c.card,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: c.border,
+      flexDirection: 'row',
+      overflow: 'hidden',
+    },
+    previewAccent: { width: 4 },
+    previewBody: { flex: 1, padding: 14 },
+    previewTitle: { fontSize: 15, fontWeight: '600', color: c.textPrimary, marginBottom: 4 },
+    previewDesc: { fontSize: 13, color: c.textSecondary, marginBottom: 8 },
+    previewRow: { flexDirection: 'row', gap: 8 },
+    previewCategory: { backgroundColor: c.accentBg, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+    previewCategoryText: { fontSize: 11, color: c.accent, fontWeight: '600' },
+    previewPriority: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+    previewPriorityText: { fontSize: 11, fontWeight: '700' },
+    buttonRow: { flexDirection: 'row', gap: 12 },
+    cancelButton: {
+      flex: 1,
+      paddingVertical: 15,
+      borderRadius: 14,
+      backgroundColor: c.card,
+      borderWidth: 1,
+      borderColor: c.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    saveButton: { flex: 2, paddingVertical: 15, borderRadius: 14, backgroundColor: c.accent, alignItems: 'center' },
+    saveText: { fontSize: 15, color: '#FFF', fontWeight: '700' },
+  });
+}
