@@ -3,6 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, ScrollView,
   StyleSheet, Alert, KeyboardAvoidingView, Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTasks } from '../context/TaskContext';
 import type { ThemeColors } from '../theme/colors';
 import type { TaskDetailScreenProps, Priority } from '../types';
@@ -75,6 +76,7 @@ export default function TaskDetailScreen({ navigation, route }: TaskDetailScreen
   const isCompleted = task.status === 'concluído';
 
   return (
+    <SafeAreaView style={styles.flex}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.flex}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -218,6 +220,7 @@ export default function TaskDetailScreen({ navigation, route }: TaskDetailScreen
         )}
       </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

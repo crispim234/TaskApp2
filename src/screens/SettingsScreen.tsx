@@ -3,6 +3,7 @@ import {
   View, Text, TouchableOpacity, Switch, ScrollView,
   StyleSheet, Image, Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTasks } from '../context/TaskContext';
 import { supabase } from '../config/supabase';
@@ -83,6 +84,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   const userEmail = user?.email ?? 'sem e-mail';
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.profileCard}>
         <Image source={require('../../assets/avatar.png')} style={styles.profileAvatar} />
@@ -194,11 +196,13 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
         <Text style={styles.footerText}>TaskApp — Trabalho Acadêmico © 2025</Text>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
 function makeStyles(c: ThemeColors) {
   return StyleSheet.create({
+    safeArea: { flex: 1, backgroundColor: c.bg },
     container: { flex: 1, backgroundColor: c.bg },
     profileCard: {
       flexDirection: 'row',

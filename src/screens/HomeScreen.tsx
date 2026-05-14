@@ -3,6 +3,7 @@ import {
   View, Text, FlatList, TouchableOpacity, TextInput,
   StyleSheet, Image,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTasks } from '../context/TaskContext';
 import TaskItem from '../components/TaskItem';
 import type { ThemeColors } from '../theme/colors';
@@ -48,7 +49,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   const firstName = user?.user_metadata?.name?.split(' ')[0] ?? 'Usuário';
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Olá, {firstName} 👋</Text>
@@ -138,7 +139,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('AddTask')} activeOpacity={0.85}>
         <Text style={styles.fabIcon}>+</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -3,6 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, Image,
   StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../config/supabase';
 import { useTasks } from '../context/TaskContext';
 import type { ThemeColors } from '../theme/colors';
@@ -59,6 +60,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   }
 
   return (
+    <SafeAreaView style={styles.flex}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.flex}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
 
@@ -140,6 +142,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
       </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

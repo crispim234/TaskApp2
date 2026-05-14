@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import { Text } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { TaskProvider } from './src/context/TaskContext';
 import SplashScreen from './src/screens/SplashScreen';
@@ -68,17 +69,19 @@ function MainTabs() {
 
 export default function App() {
   return (
-    <TaskProvider>
-      <NavigationContainer>
-        <StatusBar style="light" />
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Main" component={MainTabs} />
-          <Stack.Screen name="AddTask" component={AddTaskScreen} options={{ presentation: 'modal' }} />
-          <Stack.Screen name="TaskDetail" component={TaskDetailScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </TaskProvider>
+    <SafeAreaProvider>
+      <TaskProvider>
+        <NavigationContainer>
+          <StatusBar style="auto" />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Main" component={MainTabs} />
+            <Stack.Screen name="AddTask" component={AddTaskScreen} options={{ presentation: 'modal' }} />
+            <Stack.Screen name="TaskDetail" component={TaskDetailScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </TaskProvider>
+    </SafeAreaProvider>
   );
 }

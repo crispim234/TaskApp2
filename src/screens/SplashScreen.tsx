@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet, Animated } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import type { SplashScreenProps } from '../types';
 
 export default function SplashScreen({ navigation }: SplashScreenProps) {
@@ -19,7 +20,7 @@ export default function SplashScreen({ navigation }: SplashScreenProps) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Animated.View style={[styles.glow, { opacity: glowOpacity }]} />
       <Animated.View style={[styles.logoContainer, { opacity, transform: [{ scale }] }]}>
         <View style={styles.iconWrapper}>
@@ -29,7 +30,7 @@ export default function SplashScreen({ navigation }: SplashScreenProps) {
         <Text style={styles.tagline}>Organize. Foque. Conquiste.</Text>
       </Animated.View>
       <Text style={styles.version}>v1.0.0</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
