@@ -150,9 +150,9 @@ Tabela `tasks` no Supabase:
 |:------:|:-----:|:----:|
 | <img src="assets/screenshots/splash.jpeg" width="200"/> | <img src="assets/screenshots/login.jpeg" width="200"/> | <img src="assets/screenshots/home.jpeg" width="200"/> |
 
-| Nova Tarefa | Detalhes | Configurações |
-|:-----------:|:--------:|:-------------:|
-| <img src="assets/screenshots/nova_tarefa.jpeg" width="200"/> | <img src="assets/screenshots/detalhes.jpeg" width="200"/> | <img src="assets/screenshots/configurações.jpeg" width="200"/> |
+| Nova Tarefa | Detalhes | Configurações | Configurações 2 |
+|:-----------:|:--------:|:-------------:|:---------------:|
+| <img src="assets/screenshots/nova_tarefa.jpeg" width="200"/> | <img src="assets/screenshots/detalhes.jpeg" width="200"/> | <img src="assets/screenshots/configurações.jpeg" width="200"/> | <img src="assets/screenshots/configurações-2.jpeg" width="200"/> |
 
 </div>
 
