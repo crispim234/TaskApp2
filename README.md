@@ -131,6 +131,25 @@ Tabela `tasks` no Supabase:
 
 ---
 
+## 👥 Membros do Grupo
+
+| Membro | Componentes desenvolvidos |
+|--------|--------------------------|
+| Alexandre | Tela de Configurações, contexto global (TaskContext), integração Supabase |
+| Fabrício | Tela Principal (HomeScreen), filtros e busca de tarefas |
+| Marcus | Tela de Detalhes da Tarefa, edição e atualização de status |
+| Patrick | Tela de Login/Cadastro, autenticação com Supabase, Tela de Splash |
+
+---
+
+## 📸 Prints das Telas
+
+| Splash | Login | Home |
+|--------|-------|------|
+| ![Splash](assets/splash.png) | ![Login](assets/icon.png) | ![Home](assets/adaptive-icon.png) |
+
+---
+
 ## 📄 Licença
 
 Projeto acadêmico — Desenvolvimento Mobile · 3º Período

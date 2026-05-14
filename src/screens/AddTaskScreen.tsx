@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, ScrollView,
-  StyleSheet, KeyboardAvoidingView, Platform, Alert,
+  StyleSheet, KeyboardAvoidingView, Platform, Alert, Button,
 } from 'react-native';
 import { useTasks } from '../context/TaskContext';
 import type { AddTaskScreenProps, Priority } from '../types';
@@ -130,9 +130,9 @@ export default function AddTaskScreen({ navigation }: AddTaskScreenProps) {
         </View>
 
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.cancelText}>Cancelar</Text>
-          </TouchableOpacity>
+          <View style={styles.cancelButton}>
+            <Button title="Cancelar" onPress={() => navigation.goBack()} color="#8B8FA8" />
+          </View>
           <TouchableOpacity
             style={[styles.saveButton, saving && { opacity: 0.6 }]}
             onPress={handleSave}
