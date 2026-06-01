@@ -452,7 +452,7 @@ TaskApp2/
 
 > Tela de autenticação com campos de e-mail e senha, botão de entrar e link para cadastro. Logo do app com slogan "Organize. Foque. Conquiste."
 
-![Login](login.jpeg)
+![Login](img/login.jpeg)
 
 ---
 
@@ -460,7 +460,7 @@ TaskApp2/
 
 > Exibe saudação personalizada, resumo de tarefas (Total / Pendentes / Concluídas), campo de busca, filtros de status e categoria, lista de tarefas e botão FAB (+) para adicionar nova tarefa.
 
-![Home](home.jpeg)
+![Home](img/home.jpeg)
 
 ---
 
@@ -468,7 +468,7 @@ TaskApp2/
 
 > Formulário modal para criação de tarefa: campos de Título (obrigatório, máx. 80 chars) e Descrição (opcional, máx. 300 chars), seleção de Categoria e Prioridade, e pré-visualização em tempo real do card antes de salvar.
 
-![Nova Tarefa](nova_tarefa.jpeg)
+![Nova Tarefa](img/nova_tarefa.jpeg)
 
 ---
 
@@ -476,7 +476,7 @@ TaskApp2/
 
 > Exibe todas as informações da tarefa selecionada: status atual (com botão para alternar), título, descrição, categoria, prioridade e data de criação. Possui botões de Editar (canto superior direito) e Excluir Tarefa.
 
-![Detalhes](detalhes.jpeg)
+![Detalhes](img/detalhes.jpeg)
 
 ---
 
@@ -484,7 +484,7 @@ TaskApp2/
 
 > Seção superior com: card de perfil do usuário (nome, e-mail, badge "Ativo"), barra de progresso geral e cards de estatísticas. Logo abaixo, seção de Preferências com toggles de tema, notificações e ordenação.
 
-![Configurações - Perfil e Progresso](configurações.jpeg)
+![Configurações - Perfil e Progresso](img/configurações.jpeg)
 
 ---
 
@@ -492,7 +492,7 @@ TaskApp2/
 
 > Seção "Sobre o App" com versão, tecnologia e disciplina. Seção "Zona de Perigo" com opção de limpar dados locais. Botão de "Sair da conta" em destaque vermelho ao final da tela.
 
-![Configurações - Zona de Perigo](configurações-2.jpeg)
+![Configurações - Zona de Perigo](img/configurações-2.jpeg)
 
 ---
 
